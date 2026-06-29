@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: var(--color-brand-primary);
+  --color-on-primary: var(--color-text-inverse);
+  --color-secondary: var(--color-text-secondary);
+  --color-accent: var(--color-brand-accent);
+  --color-background: var(--color-bg-page);
+  --color-foreground: var(--color-text-primary);
+  --color-muted: var(--color-text-muted);
+  --color-border: var(--color-border-default);
+  --color-ring: var(--form-focus-ring);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--color-bg-page);
+  color: var(--color-text-primary);
+  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-highlight) 28%, transparent);
+  color: var(--color-text-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-pad {
+    @apply py-14 sm:py-16 lg:py-20;
+  }
+
+  .section-title {
+    @apply text-3xl font-bold tracking-normal text-ink sm:text-4xl lg:text-5xl;
+  }
+
+  .section-lead {
+    @apply mt-4 max-w-3xl text-base leading-7 text-body sm:text-lg;
+  }
+
+  .card {
+    @apply rounded-lg border border-line bg-surface shadow-card;
+  }
+
+  .focus-ring {
+    @apply outline-none;
+  }
+
+  .focus-ring:focus-visible {
+    box-shadow:
+      0 0 0 2px var(--color-bg-surface),
+      0 0 0 6px var(--form-focus-ring);
+  }
+
+  .primary-button {
+    @apply focus-ring inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-action px-5 py-3 text-base font-semibold text-inverse shadow-sm transition hover:bg-action-hover active:scale-[0.99];
+  }
+
+  .secondary-button {
+    @apply focus-ring inline-flex min-h-12 items-center justify-center gap-2 rounded-lg border border-line bg-surface px-5 py-3 text-base font-semibold text-graphite transition hover:border-line-strong hover:bg-action-soft active:scale-[0.99];
+  }
+
+  .form-label {
+    @apply text-sm font-semibold text-graphite;
+  }
+
+  .form-input {
+    @apply focus-ring mt-2 min-h-12 w-full rounded-lg border border-line bg-surface px-4 py-3 text-base text-ink shadow-sm transition placeholder:text-muted hover:border-line-strong focus:border-action;
+  }
+
+  .radio-card {
+    @apply focus-ring flex min-h-12 cursor-pointer items-center gap-3 rounded-lg border border-line bg-surface px-4 py-3 text-sm font-medium text-body transition hover:border-line-strong hover:bg-action-soft;
+  }
+}
