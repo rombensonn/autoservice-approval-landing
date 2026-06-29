@@ -55,6 +55,17 @@
     --form-border: var(--color-border-default);
     --form-focus-ring: color-mix(in srgb, var(--color-brand-accent) 34%, transparent);
 
+    --glass-surface: color-mix(in srgb, var(--color-tech-white) 68%, transparent);
+    --glass-surface-strong: color-mix(in srgb, var(--color-tech-white) 84%, transparent);
+    --glass-surface-inverse: color-mix(in srgb, var(--color-brand-primary) 58%, transparent);
+    --glass-border: color-mix(in srgb, var(--color-tech-white) 54%, transparent);
+    --glass-border-muted: color-mix(in srgb, var(--color-brand-primary) 14%, transparent);
+    --glass-highlight: color-mix(in srgb, var(--color-tech-white) 82%, transparent);
+    --glass-shadow: 0 18px 44px color-mix(in srgb, var(--color-brand-primary) 14%, transparent);
+    --glass-shadow-strong: 0 28px 80px color-mix(in srgb, var(--color-brand-primary) 22%, transparent);
+    --glass-blur: 24px;
+    --glass-saturation: 1.45;
+
     --ds-color-brand-950: var(--color-brand-primary);
     --ds-color-brand-800: var(--color-brand-primary);
     --ds-color-action-700: var(--color-action-primary-bg);
@@ -127,9 +138,13 @@ body {
     position: sticky;
     top: 0;
     z-index: 30;
-    border-bottom: 1px solid var(--color-border-default);
-    background: color-mix(in srgb, var(--header-bg) 88%, transparent);
-    backdrop-filter: blur(18px);
+    border-bottom: 1px solid color-mix(in srgb, var(--glass-border-muted) 70%, transparent);
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--glass-highlight) 34%, transparent), transparent 88%),
+      color-mix(in srgb, var(--header-bg) 74%, transparent);
+    -webkit-backdrop-filter: saturate(var(--glass-saturation)) blur(var(--glass-blur));
+    backdrop-filter: saturate(var(--glass-saturation)) blur(var(--glass-blur));
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--glass-highlight) 48%, transparent);
   }
 
   .brand-logo-link {
@@ -188,14 +203,18 @@ body {
     align-items: center;
     gap: 0.15rem;
     min-height: 2.75rem;
-    border: 1px solid color-mix(in srgb, var(--color-brand-primary) 12%, transparent);
+    border: 1px solid var(--glass-border-muted);
     border-radius: var(--ds-radius-pill);
-    background: color-mix(in srgb, var(--color-tech-white) 78%, transparent);
+    background:
+      linear-gradient(145deg, var(--glass-highlight), transparent 42%),
+      var(--glass-surface);
     padding: 0.22rem;
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 72%, transparent),
-      0 12px 30px color-mix(in srgb, var(--color-brand-primary) 8%, transparent);
-    backdrop-filter: blur(18px);
+      inset 0 1px 0 var(--glass-highlight),
+      inset 0 -1px 0 color-mix(in srgb, var(--color-brand-primary) 8%, transparent),
+      var(--glass-shadow);
+    -webkit-backdrop-filter: saturate(var(--glass-saturation)) blur(var(--glass-blur));
+    backdrop-filter: saturate(var(--glass-saturation)) blur(var(--glass-blur));
   }
 
   .ds-nav-link {
@@ -210,14 +229,19 @@ body {
     transition:
       background-color var(--ds-transition-fast),
       color var(--ds-transition-fast),
-      box-shadow var(--ds-transition-fast);
+      box-shadow var(--ds-transition-fast),
+      transform var(--ds-transition-fast);
     white-space: nowrap;
   }
 
   .ds-nav-link:hover {
-    background: var(--color-tech-white);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 92%, transparent), color-mix(in srgb, var(--color-tech-white) 68%, transparent));
     color: var(--header-text);
-    box-shadow: 0 7px 18px color-mix(in srgb, var(--color-brand-primary) 9%, transparent);
+    box-shadow:
+      inset 0 1px 0 var(--glass-highlight),
+      0 8px 22px color-mix(in srgb, var(--color-brand-primary) 10%, transparent);
+    transform: translateY(-1px);
   }
 
   .ds-nav-link::after {
@@ -244,7 +268,7 @@ body {
 
   .ds-nav-cta {
     min-height: 2.75rem;
-    border: 1px solid color-mix(in srgb, var(--color-tech-white) 18%, transparent);
+    border: 1px solid color-mix(in srgb, var(--glass-highlight) 30%, transparent);
     padding: 0.65rem 1rem;
     white-space: nowrap;
   }
@@ -261,6 +285,9 @@ body {
 
   .primary-button,
   .secondary-button {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     min-height: 2.875rem;
     border-radius: var(--ds-radius-pill);
     transition:
@@ -271,37 +298,75 @@ body {
       border-color var(--ds-transition-fast);
   }
 
+  .primary-button::before,
+  .secondary-button::before,
+  .ds-mock-action::before {
+    position: absolute;
+    inset: 1px 1px auto;
+    height: 52%;
+    border-radius: inherit;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--color-tech-white) 42%, transparent), transparent);
+    content: "";
+    opacity: 0.72;
+    pointer-events: none;
+    z-index: 0;
+  }
+
   .primary-button {
-    background: var(--button-primary-bg);
+    border: 1px solid color-mix(in srgb, var(--color-tech-white) 18%, transparent);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-brand-secondary) 90%, var(--color-highlight)), var(--button-primary-bg));
     color: var(--button-primary-text);
-    box-shadow: 0 14px 34px color-mix(in srgb, var(--color-action-primary-bg) 24%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 24%, transparent),
+      0 14px 34px color-mix(in srgb, var(--color-action-primary-bg) 24%, transparent);
   }
 
   .primary-button:hover {
-    background: var(--button-primary-hover-bg);
-    box-shadow: 0 18px 42px color-mix(in srgb, var(--color-action-primary-hover) 26%, transparent);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-brand-secondary) 82%, var(--color-highlight)), var(--button-primary-hover-bg));
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 28%, transparent),
+      0 18px 42px color-mix(in srgb, var(--color-action-primary-hover) 26%, transparent);
+    transform: translateY(-1px);
   }
 
   .primary-button--hero {
-    background: var(--color-tech-white);
+    border-color: color-mix(in srgb, var(--glass-highlight) 68%, transparent);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 94%, transparent), color-mix(in srgb, var(--color-tech-white) 74%, transparent));
     color: var(--color-brand-primary);
-    box-shadow: 0 18px 42px color-mix(in srgb, var(--color-tech-black) 20%, transparent);
+    -webkit-backdrop-filter: saturate(var(--glass-saturation)) blur(18px);
+    backdrop-filter: saturate(var(--glass-saturation)) blur(18px);
+    box-shadow:
+      inset 0 1px 0 var(--glass-highlight),
+      0 18px 42px color-mix(in srgb, var(--color-tech-black) 20%, transparent);
   }
 
   .primary-button--hero:hover {
-    background: var(--color-action-secondary-hover);
+    background:
+      linear-gradient(145deg, var(--color-tech-white), color-mix(in srgb, var(--color-highlight) 14%, var(--color-tech-white)));
     color: var(--color-brand-secondary);
-    box-shadow: 0 22px 52px color-mix(in srgb, var(--color-tech-black) 26%, transparent);
+    box-shadow:
+      inset 0 1px 0 var(--glass-highlight),
+      0 22px 52px color-mix(in srgb, var(--color-tech-black) 26%, transparent);
   }
 
   .secondary-button {
-    border: 1px solid var(--color-border-default);
-    background: var(--color-action-secondary-bg);
+    border: 1px solid var(--glass-border-muted);
+    background:
+      linear-gradient(145deg, var(--glass-highlight), transparent 46%),
+      var(--glass-surface-strong);
     color: var(--color-action-secondary-text);
+    -webkit-backdrop-filter: saturate(var(--glass-saturation)) blur(16px);
+    backdrop-filter: saturate(var(--glass-saturation)) blur(16px);
   }
 
   .secondary-button:hover {
-    background: var(--color-action-secondary-hover);
+    background:
+      linear-gradient(145deg, var(--glass-highlight), transparent 46%),
+      color-mix(in srgb, var(--color-action-secondary-hover) 86%, transparent);
+    transform: translateY(-1px);
   }
 
   .ds-section {
@@ -353,12 +418,22 @@ body {
     overflow: hidden;
     border: 1px solid var(--color-border-inverse);
     border-radius: var(--ds-radius-xl);
-    background: var(--color-bg-hero);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-brand-secondary) 28%, transparent), transparent 38%),
+      var(--color-bg-hero);
     box-shadow: var(--ds-shadow-float);
   }
 
   .ds-hero-frame::before {
-    display: none;
+    position: absolute;
+    inset: 1px;
+    z-index: 1;
+    border-radius: calc(var(--ds-radius-xl) - 1px);
+    background:
+      linear-gradient(155deg, color-mix(in srgb, var(--glass-highlight) 22%, transparent), transparent 34%),
+      linear-gradient(22deg, transparent 62%, color-mix(in srgb, var(--color-highlight) 12%, transparent));
+    content: "";
+    pointer-events: none;
   }
 
   .ds-hero-frame::after {
@@ -383,6 +458,17 @@ body {
     overflow: hidden;
   }
 
+  .ds-third-hero-section::before {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--glass-highlight) 16%, transparent), transparent 36%),
+      linear-gradient(180deg, transparent 58%, color-mix(in srgb, var(--color-tech-black) 24%, transparent));
+    content: "";
+    pointer-events: none;
+  }
+
   .ds-third-hero-section::after {
     position: absolute;
     inset: 0;
@@ -397,7 +483,7 @@ body {
 
   .ds-third-hero-section > .container-page {
     position: relative;
-    z-index: 1;
+    z-index: 2;
   }
 
   .ds-hero-frame--solo {
@@ -425,16 +511,24 @@ body {
   }
 
   .ds-kicker {
+    position: relative;
     display: inline-flex;
     align-items: center;
     min-height: 2.25rem;
-    border: 1px solid var(--color-border-inverse);
+    border: 1px solid color-mix(in srgb, var(--glass-highlight) 44%, transparent);
     border-radius: var(--ds-radius-pill);
-    background: color-mix(in srgb, var(--color-tech-white) 12%, transparent);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--glass-highlight) 32%, transparent), transparent 48%),
+      color-mix(in srgb, var(--color-tech-white) 13%, transparent);
     color: var(--ds-color-inverse);
     padding: 0.45rem 0.85rem;
     font-size: 0.875rem;
     font-weight: 700;
+    -webkit-backdrop-filter: saturate(var(--glass-saturation)) blur(16px);
+    backdrop-filter: saturate(var(--glass-saturation)) blur(16px);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--glass-highlight) 58%, transparent),
+      0 14px 30px color-mix(in srgb, var(--color-tech-black) 14%, transparent);
   }
 
   @media (min-width: 768px) {
@@ -490,11 +584,13 @@ body {
 
   .ds-interface-shell::before {
     position: absolute;
-    inset: -1.5rem 7% auto;
+    inset: -1.25rem 3% auto;
     height: 8rem;
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--color-brand-secondary) 10%, transparent);
-    filter: blur(34px);
+    border-radius: var(--ds-radius-xl);
+    border: 1px solid color-mix(in srgb, var(--glass-highlight) 34%, transparent);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--glass-highlight) 28%, transparent), color-mix(in srgb, var(--color-highlight) 7%, transparent));
+    filter: blur(18px);
     content: "";
     pointer-events: none;
   }
@@ -512,10 +608,14 @@ body {
     --approval-info-soft: #dbeafe;
     display: none;
     overflow: hidden;
-    border: 1px solid var(--card-border);
+    border: 1px solid var(--glass-border-muted);
     border-radius: var(--ds-radius-xl);
-    background: color-mix(in srgb, var(--card-bg) 96%, transparent);
-    box-shadow: var(--ds-shadow-float);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--glass-highlight) 34%, transparent), transparent 38%),
+      color-mix(in srgb, var(--card-bg) 92%, transparent);
+    -webkit-backdrop-filter: saturate(1.18) blur(14px);
+    backdrop-filter: saturate(1.18) blur(14px);
+    box-shadow: var(--glass-shadow-strong);
   }
 
   .ds-desktop-topbar {
@@ -524,8 +624,12 @@ body {
     align-items: center;
     gap: 0.75rem;
     min-height: 3.25rem;
-    border-bottom: 1px solid var(--color-border-default);
-    background: var(--color-bg-page);
+    border-bottom: 1px solid var(--glass-border-muted);
+    background:
+      linear-gradient(180deg, var(--glass-highlight), transparent 82%),
+      var(--glass-surface-strong);
+    -webkit-backdrop-filter: saturate(var(--glass-saturation)) blur(18px);
+    backdrop-filter: saturate(var(--glass-saturation)) blur(18px);
     padding: 0.65rem 1rem;
   }
 
@@ -573,6 +677,14 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 0.45rem;
+    transition:
+      background-color var(--ds-transition-fast),
+      transform var(--ds-transition-fast);
+  }
+
+  .ds-safari-nav span:hover {
+    background: color-mix(in srgb, var(--color-tech-white) 64%, transparent);
+    transform: translateY(-1px);
   }
 
   .ds-safari-address {
@@ -584,14 +696,19 @@ body {
     justify-self: center;
     gap: 0.45rem;
     overflow: hidden;
-    border: 1px solid var(--color-border-default);
+    border: 1px solid var(--glass-border-muted);
     border-radius: 0.5rem;
-    background: color-mix(in srgb, var(--color-tech-white) 82%, transparent);
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--color-tech-white) 88%, transparent), color-mix(in srgb, var(--color-tech-white) 62%, transparent));
     padding: 0.25rem 1rem;
     color: var(--color-text-muted);
     font-size: 0.8125rem;
     font-weight: 600;
-    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 82%, transparent);
+    box-shadow:
+      inset 0 1px 0 var(--glass-highlight),
+      0 8px 18px color-mix(in srgb, var(--color-brand-primary) 7%, transparent);
+    -webkit-backdrop-filter: saturate(var(--glass-saturation)) blur(12px);
+    backdrop-filter: saturate(var(--glass-saturation)) blur(12px);
   }
 
   .ds-safari-address span:last-child {
@@ -658,13 +775,17 @@ body {
   .ds-desktop-aside {
     border-radius: var(--ds-radius-lg);
     border: 1px solid var(--ds-color-line);
-    background: var(--ds-color-canvas);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 58%, transparent), transparent 42%),
+      var(--ds-color-canvas);
     padding: 1rem;
   }
 
   .ds-desktop-main,
   .ds-desktop-aside {
-    background: var(--ds-color-paper);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 72%, transparent), transparent 42%),
+      var(--ds-color-paper);
   }
 
   .ds-desktop-aside {
@@ -678,8 +799,11 @@ body {
     gap: 0.6rem;
     border-radius: var(--ds-radius-sm);
     border: 1px solid var(--ds-color-line);
-    background: var(--color-bg-page);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 66%, transparent), transparent 46%),
+      var(--color-bg-page);
     padding: 0.55rem 0.7rem;
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 70%, transparent);
   }
 
   .ds-history-dot {
@@ -733,7 +857,9 @@ body {
     min-height: 5.25rem;
     border: 1px solid var(--ds-color-line);
     border-radius: var(--ds-radius-sm);
-    background: var(--ds-color-paper);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 76%, transparent), transparent 48%),
+      var(--ds-color-paper);
     padding: 1rem;
     text-align: left;
     transition:
@@ -756,7 +882,11 @@ body {
 
   .ds-order-button:hover {
     border-color: color-mix(in srgb, var(--color-brand-secondary) 34%, var(--color-tech-white));
-    background: var(--color-action-secondary-hover);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 82%, transparent), transparent 44%),
+      var(--color-action-secondary-hover);
+    box-shadow: var(--glass-shadow);
+    transform: translateY(-1px);
   }
 
   .ds-order-button:focus-visible,
@@ -772,8 +902,12 @@ body {
   .ds-order-button--active,
   .ds-order-button:has(.ds-order-radio:checked) {
     border-color: color-mix(in srgb, var(--approval-info) 44%, var(--color-tech-white));
-    background: var(--approval-info-soft);
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--approval-info) 18%, transparent);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 72%, transparent), transparent 46%),
+      var(--approval-info-soft);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--approval-info) 18%, transparent),
+      0 12px 28px color-mix(in srgb, var(--approval-info) 10%, transparent);
   }
 
   .ds-order-status {
@@ -831,14 +965,19 @@ body {
     position: relative;
     overflow: hidden;
     border-radius: var(--ds-radius-lg);
-    background: color-mix(in srgb, var(--card-bg) 94%, transparent);
-    box-shadow: var(--ds-shadow-float);
+    border: 1px solid var(--glass-border-muted);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--glass-highlight) 34%, transparent), transparent 42%),
+      color-mix(in srgb, var(--card-bg) 92%, transparent);
+    -webkit-backdrop-filter: saturate(1.18) blur(12px);
+    backdrop-filter: saturate(1.18) blur(12px);
+    box-shadow: var(--glass-shadow-strong);
   }
 
   .ds-approval-inner {
     border-radius: inherit;
-    border: 1px solid var(--card-border);
-    background: color-mix(in srgb, var(--card-bg) 96%, transparent);
+    border: 1px solid color-mix(in srgb, var(--glass-border-muted) 82%, transparent);
+    background: color-mix(in srgb, var(--card-bg) 88%, transparent);
   }
 
   .ds-approval-media {
@@ -851,7 +990,10 @@ body {
   .ds-info-tile {
     border-radius: var(--ds-radius-md);
     border: 1px solid var(--ds-color-line);
-    background: var(--ds-color-canvas);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 68%, transparent), transparent 48%),
+      var(--ds-color-canvas);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 72%, transparent);
   }
 
   .ds-owner-dashboard {
@@ -871,10 +1013,14 @@ body {
     --owner-success-soft: #dcfce7;
     --owner-success-border: #bbf7d0;
     overflow: hidden;
-    border: 1px solid var(--card-border);
+    border: 1px solid var(--glass-border-muted);
     border-radius: var(--ds-radius-xl);
-    background: color-mix(in srgb, var(--card-bg) 98%, transparent);
-    box-shadow: var(--ds-shadow-float);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--glass-highlight) 36%, transparent), transparent 42%),
+      color-mix(in srgb, var(--card-bg) 92%, transparent);
+    -webkit-backdrop-filter: saturate(1.18) blur(14px);
+    backdrop-filter: saturate(1.18) blur(14px);
+    box-shadow: var(--glass-shadow-strong);
     padding: clamp(1rem, 2.8vw, 1.5rem);
   }
 
@@ -892,9 +1038,11 @@ body {
     display: inline-flex;
     min-height: 2.25rem;
     align-items: center;
-    border: 1px solid var(--owner-warning-border);
+    border: 1px solid color-mix(in srgb, var(--owner-warning) 30%, var(--color-tech-white));
     border-radius: var(--ds-radius-sm);
-    background: var(--owner-warning-soft);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 70%, transparent), transparent 48%),
+      var(--owner-warning-soft);
     color: var(--owner-warning);
     padding: 0.45rem 0.8rem;
     font-size: 0.875rem;
@@ -912,6 +1060,7 @@ body {
     border: 1px solid var(--ds-color-line);
     border-radius: var(--ds-radius-md);
     padding: 1rem;
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 72%, transparent);
     transition:
       border-color var(--ds-transition-fast),
       box-shadow var(--ds-transition-fast),
@@ -938,8 +1087,11 @@ body {
   .ds-owner-money {
     border-radius: var(--ds-radius-lg);
     border: 1px solid var(--ds-color-line);
-    background: var(--owner-neutral);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 76%, transparent), transparent 46%),
+      var(--owner-neutral);
     padding: 1rem;
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 72%, transparent);
   }
 
   .ds-owner-progress {
@@ -960,7 +1112,9 @@ body {
   .ds-owner-order-row {
     border-radius: var(--ds-radius-md);
     border: 1px solid var(--ds-color-line);
-    background: var(--ds-color-paper);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 74%, transparent), transparent 46%),
+      var(--ds-color-paper);
     padding: 0.85rem 1rem;
     transition:
       border-color var(--ds-transition-fast),
@@ -970,7 +1124,7 @@ body {
 
   .ds-owner-order-row:hover {
     border-color: color-mix(in srgb, var(--owner-info) 24%, var(--color-tech-white));
-    box-shadow: 0 10px 24px color-mix(in srgb, var(--color-brand-primary) 8%, transparent);
+    box-shadow: var(--glass-shadow);
   }
 
   .ds-owner-order-grid {
@@ -1035,7 +1189,9 @@ body {
   .ds-callout {
     border-radius: var(--ds-radius-lg);
     border: 1px solid var(--card-border);
-    background: var(--card-bg);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 72%, transparent), transparent 42%),
+      var(--card-bg);
     box-shadow: var(--ds-shadow-card);
   }
 
@@ -1043,6 +1199,18 @@ body {
   .ds-step-card {
     min-height: 13rem;
     padding: 1.35rem;
+    transition:
+      border-color var(--ds-transition-fast),
+      box-shadow var(--ds-transition-fast),
+      transform var(--ds-transition-fast);
+  }
+
+  .card:hover,
+  .ds-feature-card:hover,
+  .ds-step-card:hover {
+    border-color: color-mix(in srgb, var(--color-brand-secondary) 24%, var(--color-tech-white));
+    box-shadow: var(--glass-shadow);
+    transform: translateY(-2px);
   }
 
   .ds-bento-grid--pain .ds-feature-card:nth-child(1),
@@ -1096,6 +1264,10 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: var(--ds-radius-pill);
+    border: 1px solid color-mix(in srgb, var(--color-tech-white) 64%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 82%, transparent),
+      0 12px 24px color-mix(in srgb, var(--color-brand-primary) 8%, transparent);
   }
 
   .ds-icon-chip--warning {
@@ -1136,7 +1308,19 @@ body {
   }
 
   .ds-callout {
+    position: relative;
+    overflow: hidden;
     padding: 1.25rem;
+  }
+
+  .ds-callout::before {
+    position: absolute;
+    inset: 1px 1px auto;
+    height: 45%;
+    border-radius: inherit;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--color-tech-white) 42%, transparent), transparent);
+    content: "";
+    pointer-events: none;
   }
 
   .ds-callout--warning {
@@ -1166,11 +1350,33 @@ body {
 
   .ds-form-card {
     padding: clamp(1rem, 2.4vw, 1.5rem);
+    box-shadow: var(--glass-shadow);
   }
 
   .form-input,
   .radio-card {
     border-radius: var(--ds-radius-sm);
+  }
+
+  .form-input {
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 76%, transparent), transparent 48%),
+      var(--color-bg-surface);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 70%, transparent),
+      0 8px 18px color-mix(in srgb, var(--color-brand-primary) 5%, transparent);
+  }
+
+  .form-input:hover {
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 82%, transparent),
+      0 10px 22px color-mix(in srgb, var(--color-brand-primary) 7%, transparent);
+  }
+
+  .radio-card {
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 76%, transparent), transparent 48%),
+      var(--color-bg-surface);
   }
 
   .ds-consent-list {
@@ -1186,7 +1392,9 @@ body {
     align-items: start;
     border: 1px solid var(--color-border-default);
     border-radius: var(--ds-radius-sm);
-    background: var(--color-bg-surface);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 76%, transparent), transparent 48%),
+      var(--color-bg-surface);
     padding: 0.9rem 1rem;
     color: var(--color-text-secondary);
     font-size: 0.875rem;
@@ -1290,24 +1498,32 @@ body {
   }
 
   .ds-status-pill {
+    position: relative;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     border: 1px solid var(--color-border-default);
     border-radius: var(--ds-radius-pill);
-    background: var(--color-surface-subtle);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 76%, transparent), transparent 48%),
+      var(--color-surface-subtle);
     color: var(--color-text-primary);
   }
 
   .ds-status-pill--attention {
     border-color: color-mix(in srgb, var(--color-brand-secondary) 26%, var(--color-tech-white));
-    background: var(--color-surface-secondary);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 72%, transparent), transparent 48%),
+      var(--color-surface-secondary);
     color: var(--color-brand-primary);
   }
 
   .ds-status-pill--active {
     border-color: color-mix(in srgb, var(--color-brand-accent) 28%, var(--color-tech-white));
-    background: var(--color-surface-accent);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 72%, transparent), transparent 48%),
+      var(--color-surface-accent);
     color: var(--color-brand-primary);
   }
 
@@ -1323,8 +1539,10 @@ body {
     --action-icon-bg: currentColor;
     --action-icon-fg: var(--color-tech-white);
     position: relative;
+    isolation: isolate;
+    overflow: hidden;
     min-height: 2.75rem;
-    border-radius: var(--ds-radius-xs);
+    border-radius: var(--ds-radius-sm);
     border: 1px solid transparent;
     padding: 0.5rem 0.75rem;
     font-size: 0.875rem;
@@ -1333,7 +1551,8 @@ body {
       background-color var(--ds-transition-fast),
       border-color var(--ds-transition-fast),
       color var(--ds-transition-fast),
-      transform var(--ds-transition-fast);
+      transform var(--ds-transition-fast),
+      box-shadow var(--ds-transition-fast);
     cursor: pointer;
   }
 
@@ -1350,7 +1569,7 @@ body {
   }
 
   .ds-mock-action:active {
-    transform: translateY(1px);
+    transform: translateY(1px) scale(0.99);
   }
 
   .ds-mock-action:has(.ds-action-radio:focus-visible) {
@@ -1362,8 +1581,10 @@ body {
   .ds-mock-action--approve {
     --action-icon-bg: var(--color-tech-white);
     --action-icon-fg: var(--approval-success, var(--color-brand-primary));
-    background: var(--approval-success, var(--color-status-active));
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--approval-success, var(--color-status-active)) 86%, var(--color-highlight)), var(--approval-success, var(--color-status-active)));
     color: var(--color-tech-white);
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--approval-success, var(--color-status-active)) 24%, transparent);
   }
 
   .ds-mock-action--approve:hover {
@@ -1374,7 +1595,9 @@ body {
     --action-icon-bg: var(--approval-info, var(--color-brand-secondary));
     --action-icon-fg: var(--color-tech-white);
     border-color: color-mix(in srgb, var(--approval-info, var(--color-brand-secondary)) 28%, var(--color-tech-white));
-    background: var(--approval-info-soft, var(--color-surface-secondary));
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 74%, transparent), transparent 46%),
+      var(--approval-info-soft, var(--color-surface-secondary));
     color: color-mix(in srgb, var(--approval-info, var(--color-brand-secondary)) 76%, var(--color-brand-primary));
   }
 
@@ -1386,7 +1609,9 @@ body {
     --action-icon-bg: var(--approval-danger, var(--color-brand-primary));
     --action-icon-fg: var(--color-tech-white);
     border-color: color-mix(in srgb, var(--approval-danger, var(--color-brand-primary)) 22%, var(--color-tech-white));
-    background: var(--approval-danger-soft, var(--color-tech-white));
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 74%, transparent), transparent 46%),
+      var(--approval-danger-soft, var(--color-tech-white));
     color: color-mix(in srgb, var(--approval-danger, var(--color-brand-primary)) 74%, var(--color-brand-primary));
   }
 
@@ -1405,7 +1630,8 @@ body {
   .ds-mock-action--question:has(.ds-action-radio:checked) {
     --action-icon-bg: var(--color-tech-white);
     --action-icon-fg: var(--approval-info, var(--color-brand-secondary));
-    background: var(--approval-info, var(--color-brand-secondary));
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--approval-info, var(--color-brand-secondary)) 88%, var(--color-highlight)), var(--approval-info, var(--color-brand-secondary)));
     border-color: var(--approval-info, var(--color-brand-secondary));
   }
 
@@ -1413,7 +1639,8 @@ body {
   .ds-mock-action--decline:has(.ds-action-radio:checked) {
     --action-icon-bg: var(--color-tech-white);
     --action-icon-fg: var(--approval-danger, var(--color-brand-primary));
-    background: var(--approval-danger, var(--color-brand-primary));
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--approval-danger, var(--color-brand-primary)) 88%, var(--color-tech-white)), var(--approval-danger, var(--color-brand-primary)));
     border-color: var(--approval-danger, var(--color-brand-primary));
   }
 
@@ -1460,22 +1687,32 @@ body {
   }
 
   .ds-phone-frame {
-    border: 1px solid var(--color-border-inverse);
+    border: 1px solid color-mix(in srgb, var(--glass-highlight) 34%, transparent);
     border-radius: 2rem;
-    background: color-mix(in srgb, var(--color-brand-primary) 86%, var(--color-tech-black));
-    box-shadow: var(--ds-shadow-float);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--glass-highlight) 26%, transparent), transparent 38%),
+      color-mix(in srgb, var(--color-brand-primary) 86%, var(--color-tech-black));
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--glass-highlight) 42%, transparent),
+      var(--glass-shadow-strong);
   }
 
   .ds-phone-screen {
     overflow: hidden;
     border-radius: 1.55rem;
-    background: var(--color-bg-surface);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 72%, transparent), transparent 44%),
+      var(--color-bg-surface);
     color: var(--color-text-primary);
   }
 
   .ds-phone-topbar {
-    border-bottom: 1px solid var(--color-border-default);
-    background: var(--color-bg-page);
+    border-bottom: 1px solid var(--glass-border-muted);
+    background:
+      linear-gradient(180deg, var(--glass-highlight), transparent 82%),
+      var(--glass-surface-strong);
+    -webkit-backdrop-filter: saturate(var(--glass-saturation)) blur(16px);
+    backdrop-filter: saturate(var(--glass-saturation)) blur(16px);
   }
 
   .ds-phone-grabber {
@@ -1483,10 +1720,13 @@ body {
   }
 
   .ds-token-chip {
-    border: 1px solid var(--color-border-default);
-    border-radius: var(--ds-radius-xs);
-    background: var(--color-bg-surface);
+    border: 1px solid var(--glass-border-muted);
+    border-radius: var(--ds-radius-pill);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 84%, transparent), transparent 50%),
+      var(--glass-surface);
     color: var(--color-text-primary);
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
   }
 
   .ds-mock-card,
@@ -1494,7 +1734,10 @@ body {
   .ds-mock-tile {
     border-radius: var(--ds-radius-xs);
     border: 1px solid var(--color-border-default);
-    background: var(--color-bg-surface);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-tech-white) 74%, transparent), transparent 48%),
+      var(--color-bg-surface);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-tech-white) 72%, transparent);
   }
 
   .ds-mock-panel--attention {
@@ -1519,10 +1762,14 @@ body {
 
   .ds-lead-panel {
     border-radius: var(--ds-radius-lg);
-    border: 1px solid var(--card-border);
-    background: var(--card-bg);
+    border: 1px solid color-mix(in srgb, var(--glass-highlight) 34%, var(--card-border));
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--glass-highlight) 42%, transparent), transparent 42%),
+      color-mix(in srgb, var(--card-bg) 90%, transparent);
     color: var(--color-text-primary);
-    box-shadow: var(--ds-shadow-float);
+    -webkit-backdrop-filter: saturate(var(--glass-saturation)) blur(18px);
+    backdrop-filter: saturate(var(--glass-saturation)) blur(18px);
+    box-shadow: var(--glass-shadow-strong);
   }
 
   .ds-footer-link {
@@ -1535,8 +1782,49 @@ body {
   }
 
   .ds-footer {
-    background: var(--footer-bg);
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--color-brand-secondary) 18%, transparent), transparent 42%),
+      var(--footer-bg);
     color: var(--footer-text);
+  }
+
+  @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+    .ds-header,
+    .ds-nav-segment,
+    .primary-button--hero,
+    .secondary-button,
+    .ds-desktop-topbar,
+    .ds-safari-address,
+    .ds-phone-topbar,
+    .ds-lead-panel {
+      background: var(--color-bg-surface);
+    }
+
+    .ds-kicker {
+      background: color-mix(in srgb, var(--color-tech-white) 20%, var(--color-brand-primary));
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .ds-header,
+    .ds-nav-segment,
+    .primary-button--hero,
+    .secondary-button,
+    .ds-approval-desktop,
+    .ds-approval-card,
+    .ds-owner-dashboard,
+    .ds-phone-topbar,
+    .ds-lead-panel {
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      background: var(--color-bg-surface);
+    }
+
+    .ds-kicker {
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      background: color-mix(in srgb, var(--color-tech-white) 18%, var(--color-brand-primary));
+    }
   }
 
   @media (max-width: 1023px) {
