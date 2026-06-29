@@ -9,7 +9,7 @@ export function BrandLogo({ variant = "header" }: BrandLogoProps) {
     <span className={`brand-logo brand-logo--${variant}`}>
       <Image
         className="brand-logo__image"
-        src="/images/desmos-auto-logo.png"
+        src="./images/desmos-auto-logo.png"
         alt="Десмос Авто"
         width={2327}
         height={891}
