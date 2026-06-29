@@ -440,7 +440,7 @@ body {
     position: absolute;
     inset: 0;
     z-index: 0;
-    background-image: url("/images/hero-approval-service-bg.png");
+    background-image: url("../public/images/hero-approval-service-bg.png");
     background-position: center;
     background-size: cover;
     content: "";
@@ -449,7 +449,7 @@ body {
   }
 
   .ds-hero-frame--owner-control::after {
-    background-image: url("/images/hero-owner-control-bg.png");
+    background-image: url("../public/images/hero-owner-control-bg.png");
   }
 
   .ds-third-hero-section {
@@ -473,7 +473,7 @@ body {
     position: absolute;
     inset: 0;
     z-index: 0;
-    background-image: url("/images/hero-client-status-bg.png");
+    background-image: url("../public/images/hero-client-status-bg.png");
     background-position: center;
     background-size: cover;
     content: "";

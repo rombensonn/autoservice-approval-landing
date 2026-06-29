@@ -1,4 +1,5 @@
 import Image from "next/image";
+import brandLogo from "../../public/images/desmos-auto-logo.png";
 
 type BrandLogoProps = {
   variant?: "header" | "footer";
@@ -9,10 +10,8 @@ export function BrandLogo({ variant = "header" }: BrandLogoProps) {
     <span className={`brand-logo brand-logo--${variant}`}>
       <Image
         className="brand-logo__image"
-        src="/images/desmos-auto-logo.png"
+        src={brandLogo}
         alt="Десмос Авто"
-        width={2327}
-        height={891}
         sizes="(min-width: 640px) 184px, 36vw"
         priority={variant === "header"}
       />
